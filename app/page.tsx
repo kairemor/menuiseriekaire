@@ -37,7 +37,7 @@ export default async function Home() {
       <About about={aboutData}/>
       <Projects/>
       <Contact/>
-      {/* <Footer/> */}
+      <Footer/>
       <Copyright/>
     </main>
   );

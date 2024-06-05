@@ -6,7 +6,7 @@ function Contact() {
     <div className="container">
        <div className="row">
           <div className="col-md-12">
-             <h1 className="contact_taital">Contact Us</h1>
+             <h1 className="contact_taital">Nous Contacter</h1>
           </div>
        </div>
     </div>
@@ -20,7 +20,7 @@ function Contact() {
                       <input type="text" className="mail_text" placeholder="Phone Number" name="Phone Number"/> 
                       <input type="text" className="mail_text" placeholder="Email" name="Email"/>
                       <textarea className="massage-bt" placeholder="Massage" rows={5} id="comment" name="Massage"></textarea>
-                      <div className="send_bt"><a href="#">SEND</a></div>
+                      <div className="send_bt"><a href="#">Envoyer</a></div>
                    </div>
                 </form>
              </div>
