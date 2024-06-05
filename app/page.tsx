@@ -1,95 +1,46 @@
+'use server'
+
 import Image from "next/image";
-import styles from "./page.module.css";
+import Header from "./components/header";
+import Services from "./components/services";
+import About from "./components/about";
+import Projects from "./components/projects";
+import Footer from "./components/footer";
+import Copyright from "./components/copyright";
+import { data } from "../data";
+import { groq } from "next-sanity";
+import { client } from "@/sanity/lib/client";
+import Contact from "./components/contact";
 
-export default function Home() {
+
+export default async function Home() {
+
+  const homeInfo = groq`
+  *[_type == "home"][0]
+`;
+  const aboutInfo = groq`
+    *[_type == "about"][0]
+  `;
+  const servicesInfo = groq`
+  *[_type == "service"]
+`;
+
+
+  const homeData: Home = await client.fetch(homeInfo);
+  const aboutData: About = await client.fetch(aboutInfo, undefined, { cache: 'no-store' });
+  const services: [Service] = await client.fetch(servicesInfo);
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+    <main>
+      <Header header={data.header} home={homeData}/>
+      <Services services={services}/>
+      <About about={aboutData}/>
+      <Projects/>
+      <Contact/>
+      {/* <Footer/> */}
+      <Copyright/>
     </main>
   );
 }
+
+// export const dynamic = "force-dynamic";
